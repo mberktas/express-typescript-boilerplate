@@ -1,15 +1,20 @@
 {
 	"name": "express-typescript-boilerplate",
 	"version": "1.0.0",
-	"description": "express typescript boilerplate for web apps.",
+	"description": "express typescript boilerplate",
 	"author": "Muhammet Berktaş",
-	"license": "ISC",
+	"license": "MIT",
 	"main": "index.js",
+	"keywords": [
+		"boilerplate",
+		"starter",
+		"express",
+		"typescript"
+	],
 	"scripts": {
 		"start": "node dist/index.js",
 		"dev": "tsc-watch --onSuccess \"node dist/index.js\"",
 		"build": "tsc",
-		"postinstall": "npm run build",
 		"test": "jest"
 	},
 	"devDependencies": {

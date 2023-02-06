@@ -1,6 +1,6 @@
 import { cleanEnv, str, port } from 'envalid'
 
-class Config {
+abstract class Config {
 	static PORT = process.env.PORT || 8080
 	static MONGO_URI = process.env.MONGO_URI || ''
 	static MONGO_USER = process.env.MONGO_USER || ''

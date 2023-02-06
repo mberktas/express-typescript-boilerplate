@@ -54,6 +54,7 @@ export default class App {
 	private initializeDatabaseConnection(): void {
 		try {
 			mongoose.connect(`mongodb://${Config.MONGO_USER}:${Config.MONGO_PASSWORD}${Config.MONGO_URI}`)
+			// mongoose.connect(`mongodb://${Config.MONGO_URI}`)
 			logger.info('Connected to database')
 		} catch (err) {
 			logger.error("Couldn't connect to database" + err)
