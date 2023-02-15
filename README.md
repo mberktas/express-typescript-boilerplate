@@ -35,8 +35,8 @@ src\
     |--user\
         |--user.test.ts
 
- |--resources\
-    |-- user  # API Resources
+ |--resources\                     # API Resources
+    |-- user
         |-- user.controller.ts     # Route controller (controller layer)
         |-- user.service.ts        # Business logic (service layer)
         |-- user.model.ts          # Mongoose model (data layer)
