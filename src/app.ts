@@ -27,7 +27,7 @@ export default class App {
 		return this.app
 	}
 
-	listen() {
+	listen(port?: number) {
 		this.app.listen(this.port, () => {
 			logger.info(`App listening on the port ${this.port}`)
 			console.log(`App listening on the port ${this.port}`)

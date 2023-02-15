@@ -6,7 +6,8 @@ import UserController from '@/resources/user/user.controller'
 
 Config.validateEnv()
 
-const app = new App([new UserController()])
+const controllers = [new UserController()]
+const app = new App(controllers)
 
 if (Config.NODE_ENV !== 'test') app.listen()
 
