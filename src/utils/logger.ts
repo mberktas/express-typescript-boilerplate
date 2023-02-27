@@ -25,10 +25,12 @@ const logger = createLogger({
 			filename: 'logs/debug.log',
 			level: 'debug',
 		}),
+		new transports.Console({}),
 	],
 	format: format.combine(
 		format.timestamp({ format: timezone }),
 		format.json(),
+		format.colorize(),
 		format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`),
 	),
 })
