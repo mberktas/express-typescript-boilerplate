@@ -1,3 +1,4 @@
+import { controllerLoader } from '@/loaders/controller.loader'
 import fileUpload from 'express-fileupload'
 import express, { Application } from 'express'
 import Controller from '@/utils/interfaces/controller.interface'
@@ -15,12 +16,13 @@ export default class App {
 	private port: number = Config.PORT as number
 	private baseUri: string = '/api/v1'
 
-	constructor(controllers: Controller[]) {
+	constructor() {
 		this.app = express()
 
 		this.initializeMiddlewares()
 		this.initializeDatabaseConnection()
-		this.initializeControllers(controllers)
+		this.initializeControllers()
+		this.initializeErrorMiddleware()
 	}
 
 	public getInstance() {
@@ -30,7 +32,6 @@ export default class App {
 	listen(port?: number) {
 		this.app.listen(this.port, () => {
 			logger.info(`App listening on the port ${this.port}`)
-			console.log(`App listening on the port ${this.port}`)
 		})
 
 		swaggerDocs(this.app)
@@ -47,21 +48,27 @@ export default class App {
 				statusLevels: true,
 			}),
 		)
+	}
 
+	private initializeErrorMiddleware() {
 		this.app.use(errorMiddleware)
 	}
 
-	private initializeDatabaseConnection(): void {
+	private async initializeDatabaseConnection() {
 		try {
-			// mongoose.connect(`mongodb://${Config.MONGO_USER}:${Config.MONGO_PASSWORD}${Config.MONGO_URI}`)
-			mongoose.connect(`mongodb://${Config.MONGO_URI}`)
+			mongoose.set('strictQuery', false)
+			await mongoose.connect(
+				`mongodb://${Config.MONGO_USER}:${Config.MONGO_PASSWORD}${Config.MONGO_URI}`,
+			)
+			// mongoose.connect(`mongodb://${Config.MONGO_URI}`)
 			logger.info('Connected to database')
 		} catch (err) {
-			logger.error("Couldn't connect to database" + err)
+			logger.error("Couldn't connect to database " + err)
 		}
 	}
 
-	private initializeControllers(controllers: Controller[]) {
+	private async initializeControllers() {
+		let controllers = await controllerLoader()
 		for (let controller of controllers) {
 			this.app.use(`${this.baseUri}${controller.path}`, controller.router)
 		}

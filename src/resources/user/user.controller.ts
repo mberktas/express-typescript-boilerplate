@@ -1,20 +1,15 @@
-import HttpException from '@/utils/exceptions/http.exception'
-import { createUserSchema } from './user.dto'
-import { UserNotFoundException } from './user.exception'
-import logger from '@/utils/logger'
+import { autoInjectable } from 'tsyringe'
 import { NextFunction, Request, Response, Router } from 'express'
 import Controller from '@/utils/interfaces/controller.interface'
 import HttpStatus from 'http-status'
-import validationMiddleware from '@/middleware/validation.middleware'
-import authMiddleware from '@/middleware/auth.middleware'
 import UserService from './user.service'
 
+@autoInjectable()
 export default class UserController implements Controller {
-	path = '/users'
-	router = Router()
-	userService: UserService = new UserService()
+	readonly path = '/users'
+	readonly router = Router()
 
-	constructor() {
+	constructor(private readonly userService: UserService) {
 		this.initializeRoutes()
 	}
 	initializeRoutes() {
